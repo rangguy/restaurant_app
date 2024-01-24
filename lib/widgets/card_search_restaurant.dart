@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/model/restaurant_search.dart';
+import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/widgets/rating.dart';
@@ -74,13 +74,36 @@ class CardSearchRestaurant extends StatelessWidget {
                       ? IconButton(
                           icon: const Icon(Icons.favorite),
                           color: Colors.red[800],
-                          onPressed: () => provider.removeBookmark(restaurant.id),
-                        )
+                          onPressed: () {
+                            provider.removeBookmark(restaurant.id);
+                            final snackBar = SnackBar(
+                              content:
+                                  const Text('Menghapus Resto dari favorit'),
+                              action: SnackBarAction(
+                                label: 'Batalkan',
+                                onPressed: () =>
+                                    provider.addBookmark(restaurant),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          })
                       : IconButton(
                           icon: const Icon(Icons.favorite_border),
                           color: Colors.red[800],
-                          onPressed: () => provider.addBookmark(restaurant),
-                        ),
+                          onPressed: () {
+                            provider.addBookmark(restaurant);
+                            final snackBar = SnackBar(
+                              content: const Text('Menambah Resto ke favorit'),
+                              action: SnackBarAction(
+                                label: 'Batalkan',
+                                onPressed: () =>
+                                    provider.removeBookmark(restaurant.id),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }),
                   onTap: () {
                     Navigator.pushNamed(context, RestaurantDetailPage.routeName,
                         arguments: restaurant.id);
