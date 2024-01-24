@@ -4,7 +4,6 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/widgets/add_customer_review.dart';
-import 'package:restaurant_app/widgets/card_restaurant.dart';
 import 'package:restaurant_app/widgets/categories_items.dart';
 import 'package:restaurant_app/widgets/list_customer_review.dart';
 import 'package:restaurant_app/widgets/menu_items.dart';

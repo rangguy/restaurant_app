@@ -79,6 +79,7 @@ class CardSearchRestaurant extends StatelessWidget {
                             final snackBar = SnackBar(
                               content:
                                   const Text('Menghapus Resto dari favorit'),
+                              duration: const Duration(milliseconds: 330),
                               action: SnackBarAction(
                                 label: 'Batalkan',
                                 onPressed: () =>
@@ -95,6 +96,7 @@ class CardSearchRestaurant extends StatelessWidget {
                             provider.addBookmark(restaurant);
                             final snackBar = SnackBar(
                               content: const Text('Menambah Resto ke favorit'),
+                              duration: const Duration(milliseconds: 330),
                               action: SnackBarAction(
                                 label: 'Batalkan',
                                 onPressed: () =>
