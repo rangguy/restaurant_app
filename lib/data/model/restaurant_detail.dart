@@ -1,3 +1,5 @@
+import 'package:restaurant_app/data/model/restaurant.dart';
+
 class RestaurantDetailsResponse {
   bool error;
   String message;
@@ -61,6 +63,17 @@ class RestaurantDetails {
       customerReviews: List<CustomerReview>.from(
         json["customerReviews"].map((x) => CustomerReview.fromJson(x)),
       ),
+    );
+  }
+
+  Restaurant toRestaurant() {
+    return Restaurant(
+      id: id,
+      name: name,
+      description: description,
+      city: city,
+      pictureId: pictureId,
+      rating: rating,
     );
   }
 }

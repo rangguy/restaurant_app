@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/restaurant_search_provider.dart';
 import 'package:restaurant_app/utils/result_state.dart';
-import 'package:restaurant_app/widgets/card_search_restaurant.dart';
+import 'package:restaurant_app/widgets/card_restaurant.dart';
 
 class SearchRestaurant extends StatefulWidget {
   static const routeName = '/search_restaurant';
@@ -29,13 +30,21 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Search Results',
-          style: TextStyle(color: Colors.white),
+        backgroundColor: Colors.green,
+        title: Text(
+          'Search Results for "${widget.search}"',
+          style: const TextStyle(color: Colors.white),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigation.back(),
+          color: Colors.white,
+        ),
+        shape: const ContinuousRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
         ),
       ),
       body: ListenableProvider<RestaurantSearchProvider>(
@@ -56,38 +65,34 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
                   itemCount: state.result.restaurants.length,
                   itemBuilder: (BuildContext context, int index) {
                     var restaurant = state.result.restaurants[index];
-                    return CardSearchRestaurant(restaurant: restaurant);
+                    return CardRestaurant(restaurant: restaurant);
                   },
                 );
               } else if (state.state == ResultState.noData) {
                 // error widget
                 return Center(
-                  child: Material(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.search_off,
-                          size: 100, // Adjust the size as needed
-                          color: Colors.red,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          state.message,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.search_off,
+                        size: 100,
+                        color: Colors.red,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        state.message,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ],
                   ),
                 );
               } else if (state.state == ResultState.error) {
                 // error widget
                 return Center(
-                  child: Material(
-                    child: Text(
-                      state.message,
-                      style: const TextStyle(color: Colors.red),
-                    ),
+                  child: Text(
+                    state.message,
+                    style: const TextStyle(color: Colors.red),
                   ),
                 );
               } else {

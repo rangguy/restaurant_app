@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/widgets/add_customer_review.dart';
@@ -48,7 +47,6 @@ class _DetailRestaurantState extends State<DetailRestaurant> {
                             child: Text(
                               widget.restaurant.name,
                               style: const TextStyle(
-                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
                               ),
@@ -70,11 +68,13 @@ class _DetailRestaurantState extends State<DetailRestaurant> {
                                         final snackBar = SnackBar(
                                           content: const Text(
                                               'Menghapus Resto dari favorit'),
+                                          duration:
+                                              const Duration(milliseconds: 330),
                                           action: SnackBarAction(
                                             label: 'Batalkan',
                                             onPressed: () => provider
                                                 .addBookmark(widget.restaurant
-                                                    as Restaurant),
+                                                    .toRestaurant()),
                                           ),
                                         );
                                         ScaffoldMessenger.of(context)
@@ -85,10 +85,12 @@ class _DetailRestaurantState extends State<DetailRestaurant> {
                                       color: Colors.red[800],
                                       onPressed: () {
                                         provider.addBookmark(
-                                            widget.restaurant as Restaurant);
+                                            widget.restaurant.toRestaurant());
                                         final snackBar = SnackBar(
                                           content: const Text(
                                               'Menambah Resto ke favorit'),
+                                          duration:
+                                              const Duration(milliseconds: 330),
                                           action: SnackBarAction(
                                             label: 'Batalkan',
                                             onPressed: () =>

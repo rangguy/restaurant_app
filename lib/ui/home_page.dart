@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_favorite_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
+import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/settings_page.dart';
+import 'package:restaurant_app/utils/notification_helper.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home_page';
@@ -13,13 +17,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
   int _bottomNavIndex = 0;
   static const String _headlineText = 'Restaurant';
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   final List<Widget> _listWidget = [
     const RestaurantListPage(),
     const FavoritePage(),
-    const SettingsPage(),
   ];
 
   final List<BottomNavigationBarItem> _bottomNavBarItems = [
@@ -31,10 +37,6 @@ class _HomePageState extends State<HomePage> {
       icon: Icon(Icons.favorite),
       label: FavoritePage.favoriteTitle,
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(Icons.settings),
-      label: SettingsPage.settingsTitle,
-    ),
   ];
 
   void _onBottomNavTapped(int index) {
@@ -44,13 +46,72 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _notificationHelper
+        .configureSelectNotificationSubject(RestaurantDetailPage.routeName);
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Restaurant App',
-          style: TextStyle(color: Colors.white),
+        backgroundColor: Colors.green,
+        elevation: 0,
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              const SizedBox(width: 8), 
+              Expanded(
+                child: TextField(
+                  style: const TextStyle(color: Colors.black),
+                  cursorColor: Colors.black,
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    hintText: 'Cari nama Restaurant',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    border: InputBorder.none,
+                    
+                  ),
+                  onSubmitted: (value) {
+                    setState(
+                      () {
+                        _navigateToSearchRestaurant(value);
+                      },
+                    );
+                    _searchController.clear();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigation.intentNoData(SettingsPage.routeName);
+            },
+            icon: const Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: _listWidget[_bottomNavIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -59,6 +120,14 @@ class _HomePageState extends State<HomePage> {
         items: _bottomNavBarItems,
         onTap: _onBottomNavTapped,
       ),
+    );
+  }
+
+  _navigateToSearchRestaurant(String search) {
+    _focusNode.unfocus();
+    Navigation.intentWithData(
+      SearchRestaurant.routeName,
+      search,
     );
   }
 }

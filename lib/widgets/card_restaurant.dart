@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
@@ -20,7 +21,6 @@ class CardRestaurant extends StatelessWidget {
           builder: ((context, snapshot) {
             var isBookmarked = snapshot.data ?? false;
             return Material(
-              color: primaryColor,
               child: Card(
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(
@@ -108,10 +108,8 @@ class CardRestaurant extends StatelessWidget {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(snackBar);
                           }),
-                  onTap: () {
-                    Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-                        arguments: restaurant.id);
-                  },
+                  onTap: () => Navigation.intentWithData(
+                      RestaurantDetailPage.routeName, restaurant.id),
                 ),
               ),
             );

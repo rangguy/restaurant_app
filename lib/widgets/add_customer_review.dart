@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/restaurant_review_provider.dart';
 import 'package:restaurant_app/widgets/success_dialog.dart';
@@ -96,9 +97,12 @@ class _AddReviewState extends State<AddReview> {
               }
             },
             style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(40),
+                minimumSize: const Size.fromHeight(40),
+                backgroundColor: secondaryColor),
+            child: const Text(
+              'Add Review',
+              style: TextStyle(color: Colors.white),
             ),
-            child: const Text('Add Review'),
           ),
         ],
       ),

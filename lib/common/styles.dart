@@ -3,24 +3,24 @@ import 'package:google_fonts/google_fonts.dart';
 
 const Color primaryColor = Color(0xFFFFFFFF);
 const Color secondaryColor = Colors.green;
-const Color darkPrimaryColor = Color(0xFF000000);
+const Color darkPrimaryColor = Colors.black54;
 const Color darkSecondaryColor = Color(0xff64ffda);
 
 /// lightheme
 ThemeData lightTheme = ThemeData(
   colorScheme: ThemeData.light().colorScheme.copyWith(
         primary: primaryColor,
-        onPrimary: Colors.black,
+        onPrimary: secondaryColor,
         secondary: secondaryColor,
       ),
   scaffoldBackgroundColor: Colors.white,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: myTextTheme,
-  appBarTheme: const AppBarTheme(elevation: 0),
+  appBarTheme: const AppBarTheme(elevation: 0, backgroundColor: Colors.green),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: secondaryColor,
-      foregroundColor: Colors.white,
+      foregroundColor: Colors.green,
       textStyle: const TextStyle(),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
@@ -29,29 +29,72 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  switchTheme: SwitchThemeData(
+    trackColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      return states.contains(MaterialState.selected)
+          ? Colors.green
+          : Colors
+              .grey; // Set track color to green when selected, grey otherwise
+    }),
+    thumbColor: MaterialStateProperty.all<Color>(Colors.white),
+    overlayColor:
+        MaterialStateProperty.all<Color>(Colors.green.withOpacity(0.2)),
+  ),
+  cardColor: Colors.green,
+  textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.grey,
+      selectionColor: Colors.blue,
+      selectionHandleColor: Colors.blue),
+  inputDecorationTheme: const InputDecorationTheme(
+    focusColor: Colors.black,
+    hoverColor: Colors.black,
+  ),
 );
 
 // dark theme
 ThemeData darkTheme = ThemeData.dark().copyWith(
   colorScheme: ThemeData.dark().colorScheme.copyWith(
         primary: darkPrimaryColor,
-        onPrimary: Colors.black,
-        secondary: darkSecondaryColor,
+        onPrimary: Colors.green,
+        secondary: Colors.black,
       ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: myTextTheme,
-  appBarTheme: const AppBarTheme(elevation: 0),
+  scaffoldBackgroundColor: Colors.black,
+  appBarTheme: const AppBarTheme(elevation: 0, backgroundColor: secondaryColor),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: secondaryColor,
-      foregroundColor: Colors.white,
+      backgroundColor: Colors.green,
+      foregroundColor: Colors.black,
       textStyle: const TextStyle(),
       shape: const RoundedRectangleBorder(
-        borderRadius:  BorderRadius.all(
-         Radius.circular(0),
+        borderRadius: BorderRadius.all(
+          Radius.circular(0),
         ),
       ),
     ),
+  ),
+  cardColor: Colors.green,
+  textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.white,
+      selectionColor: Colors.blue,
+      selectionHandleColor: Colors.blue),
+  inputDecorationTheme: const InputDecorationTheme(
+    focusColor: Colors.white,
+    hoverColor: Colors.white,
+  ),
+  switchTheme: SwitchThemeData(
+    trackColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      return states.contains(MaterialState.selected)
+          ? Colors.green
+          : Colors
+              .grey; // Set track color to green when selected, grey otherwise
+    }),
+    thumbColor: MaterialStateProperty.all<Color>(Colors.white),
+    overlayColor:
+        MaterialStateProperty.all<Color>(Colors.green.withOpacity(0.2)),
   ),
 );
 

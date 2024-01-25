@@ -33,7 +33,7 @@ class ListCustomerReview extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   review.review,
-                  style: const TextStyle(color: Colors.black, fontSize: 12),
+                  style: const TextStyle(fontSize: 12),
                 ),
               ],
             ),
