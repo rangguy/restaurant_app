@@ -11,5 +11,9 @@ class Navigation {
     navigatorKey.currentState?.pushNamed(routeName);
   }
 
+  static logout(String routeName) {
+    navigatorKey.currentState?.pushReplacementNamed(routeName);
+  }
+
   static back() => navigatorKey.currentState?.pop();
 }

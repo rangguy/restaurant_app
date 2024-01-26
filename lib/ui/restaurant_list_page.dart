@@ -40,6 +40,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                   backgroundColor: Colors.green,
                   floating: true,
                   pinned: true,
+                  automaticallyImplyLeading: false,
                   title: Text(
                     'List of restaurants',
                     style: TextStyle(color: Colors.white),

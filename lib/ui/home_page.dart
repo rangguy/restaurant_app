@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
@@ -22,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   static const String _headlineText = 'Restaurant';
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final _auth = FirebaseAuth.instance;
+  late User? _activeUser;
 
   final List<Widget> _listWidget = [
     const RestaurantListPage(),
@@ -50,6 +53,15 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _notificationHelper
         .configureSelectNotificationSubject(RestaurantDetailPage.routeName);
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      _activeUser = _auth.currentUser;
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -63,6 +75,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
+        automaticallyImplyLeading: false,
         elevation: 0,
         title: Container(
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -76,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.search,
                 color: Colors.grey,
               ),
-              const SizedBox(width: 8), 
+              const SizedBox(width: 8),
               Expanded(
                 child: TextField(
                   style: const TextStyle(color: Colors.black),
@@ -86,7 +99,6 @@ class _HomePageState extends State<HomePage> {
                     hintText: 'Cari nama Restaurant',
                     hintStyle: TextStyle(color: Colors.grey),
                     border: InputBorder.none,
-                    
                   ),
                   onSubmitted: (value) {
                     setState(

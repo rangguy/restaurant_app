@@ -1,15 +1,39 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
+import 'package:restaurant_app/ui/login_page.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   static const String routeName = '/settings';
   static const String settingsTitle = 'Settings';
 
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  final _auth = FirebaseAuth.instance;
+  late User? _activeUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      _activeUser = _auth.currentUser;
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +57,9 @@ class SettingsPage extends StatelessWidget {
                   Icons.logout,
                   color: Colors.white,
                 ),
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) =>()),
-                  // );
+                onPressed: () async {
+                  await _auth.signOut();
+                  Navigation.logout(LoginPage.routeName);
                 },
               ),
             ],
@@ -78,11 +100,11 @@ class SettingsPage extends StatelessWidget {
                 colors: [Colors.green, Colors.green],
               ),
             ),
-            child: const CircleAvatar(
+            child: CircleAvatar(
               backgroundColor: Colors.transparent,
               child: Text(
-                'R',
-                style: TextStyle(
+                _activeUser!.email![0].toUpperCase(),
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 40.0,
                   fontWeight: FontWeight.bold,
@@ -91,9 +113,9 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const Text(
-            'ranggadwi100@gmail.com',
-            style: TextStyle(
+          Text(
+            _activeUser!.email!,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),

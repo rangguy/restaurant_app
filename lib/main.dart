@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +9,14 @@ import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
 import 'package:restaurant_app/data/preferences/preferences_helper.dart';
+import 'package:restaurant_app/firebase_options.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/home_page.dart';
+import 'package:restaurant_app/ui/login_page.dart';
+import 'package:restaurant_app/ui/register_page.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/settings_page.dart';
@@ -32,7 +36,9 @@ Future<void> main() async {
     await AndroidAlarmManager.initialize();
   }
   await notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
-
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -69,8 +75,10 @@ class MyApp extends StatelessWidget {
             title: 'Restaurant App',
             theme: provider.themeData,
             navigatorKey: navigatorKey,
-            initialRoute: HomePage.routeName,
+            initialRoute: LoginPage.routeName,
             routes: {
+              LoginPage.routeName: (context) => const LoginPage(),
+              RegisterPage.routeName: (context) => const RegisterPage(),
               HomePage.routeName: (context) => const HomePage(),
               RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
                     id: ModalRoute.of(context)?.settings.arguments as String,
@@ -79,7 +87,7 @@ class MyApp extends StatelessWidget {
                     search:
                         ModalRoute.of(context)?.settings.arguments as String,
                   ),
-                SettingsPage.routeName:(context) => const SettingsPage(),
+              SettingsPage.routeName: (context) => const SettingsPage(),
             },
           );
         },

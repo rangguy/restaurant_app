@@ -22,6 +22,7 @@ class FavoritePage extends StatelessWidget {
                   backgroundColor: Colors.green,
                   floating: true,
                   pinned: true,
+                  automaticallyImplyLeading: false,
                   title: Text(
                     'Your favorite restaurants',
                     style: TextStyle(color: Colors.white),
@@ -49,6 +50,7 @@ class FavoritePage extends StatelessWidget {
                   backgroundColor: Colors.green,
                   floating: true,
                   pinned: true,
+                  automaticallyImplyLeading: false,
                   title: Text(
                     'Your favorite restaurants',
                     style: TextStyle(color: Colors.white),
