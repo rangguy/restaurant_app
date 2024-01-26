@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
@@ -156,8 +157,11 @@ class SettingsPage extends StatelessWidget {
           return Switch.adaptive(
             value: provider.isNotifRestaurantActive,
             onChanged: (value) async {
-              scheduled.scheduledNotif(value);
-              provider.enableNotifRestaurant(value);
+              final result = await Permission.notification.request();
+              if (result == PermissionStatus.granted) {
+                scheduled.scheduledNotif(value);
+                provider.enableNotifRestaurant(value);
+              }
             },
           );
         },

@@ -54,9 +54,9 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
               ];
             },
             body: ListView.builder(
-              itemCount: state.result.restaurants.length,
+              itemCount: state.result!.restaurants.length,
               itemBuilder: (BuildContext context, int index) {
-                var restaurant = state.result.restaurants[index];
+                var restaurant = state.result!.restaurants[index];
                 return CardRestaurant(
                   restaurant: restaurant,
                 );

@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
                     search:
                         ModalRoute.of(context)?.settings.arguments as String,
                   ),
-                SettingsPage.routeName:(context) => SettingsPage(),
+                SettingsPage.routeName:(context) => const SettingsPage(),
             },
           );
         },

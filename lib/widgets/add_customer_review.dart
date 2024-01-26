@@ -70,13 +70,13 @@ class _AddReviewState extends State<AddReview> {
                       arguments: widget.idRestaurant);
 
                   // Beri keterlambatan sebelum menampilkan dialog sukses
-                  await Future.delayed(Duration(milliseconds: 300));
+                  await Future.delayed(const Duration(milliseconds: 300));
 
                   // Tampilkan dialog sukses jika berhasil
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return SuccessDialog(
+                      return const SuccessDialog(
                         description: "Success to add your review",
                       );
                     },
