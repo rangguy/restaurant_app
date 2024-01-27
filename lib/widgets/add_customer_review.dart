@@ -16,7 +16,6 @@ class _AddReviewState extends State<AddReview> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _reviewController = TextEditingController();
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,6 @@ class _AddReviewState extends State<AddReview> {
               var validate = _formKey.currentState!.validate();
               if (validate) {
                 setState(() {
-                  _isLoading = true;
                 });
                 try {
                   // Panggil fungsi addReview dari provider
@@ -99,7 +97,6 @@ class _AddReviewState extends State<AddReview> {
                   showDialog(context: context, builder: (context) => alert);
                 }
                 setState(() {
-                  _isLoading = false;
                 });
               }
             },
