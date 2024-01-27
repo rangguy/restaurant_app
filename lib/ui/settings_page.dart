@@ -60,8 +60,25 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.white,
                 ),
                 onPressed: () async {
-                  await _auth.signOut();
-                  Navigation.logout(LoginPage.routeName);
+                  AlertDialog alert = AlertDialog(
+                    title: const Text("Logout"),
+                    content: const Text("Are you sure want to logout?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigation.back(),
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        child: const Text('Ok'),
+                        onPressed: () async {
+                          await _auth.signOut();
+                          Navigation.logout(LoginPage.routeName);
+                        },
+                      ),
+                    ],
+                  );
+                  showDialog(context: context, builder: (context) => alert);
+                  return;
                 },
               ),
             ],
