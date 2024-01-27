@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
@@ -23,8 +22,6 @@ class _HomePageState extends State<HomePage> {
   static const String _headlineText = 'Restaurant';
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-  final _auth = FirebaseAuth.instance;
-  late User? _activeUser;
 
   final List<Widget> _listWidget = [
     const RestaurantListPage(),
@@ -58,7 +55,6 @@ class _HomePageState extends State<HomePage> {
 
   void getCurrentUser() async {
     try {
-      _activeUser = _auth.currentUser;
     } catch (e) {
       print(e);
     }

@@ -125,7 +125,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     try {
                       final email = _emailController.text;
                       final password = _passwordController.text;
-                      final confPass = _confirmPassController.text;
 
                       await _auth.createUserWithEmailAndPassword(
                           email: email, password: password);
