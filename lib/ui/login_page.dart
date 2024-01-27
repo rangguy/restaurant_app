@@ -34,9 +34,9 @@ class _LoginPageState extends State<LoginPage> {
                 ? const Center(child: CircularProgressIndicator())
                 : Container(),
             Hero(
-              tag: 'Dicoding Chatting',
+              tag: 'Restaurant App',
               child: Text(
-                'Dicoding Chatting',
+                'Restaurant App',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 24.0),
             MaterialButton(
-              color: Theme.of(context).primaryColor,
+              color: Colors.green,
               textTheme: ButtonTextTheme.primary,
               height: 40,
               shape: RoundedRectangleBorder(
@@ -85,7 +85,21 @@ class _LoginPageState extends State<LoginPage> {
 
                   await _auth.signInWithEmailAndPassword(
                       email: email, password: password);
-                  Navigation.intentNoData(HomePage.routeName);
+
+                  // Tampilkan dialog sukses jika berhasil
+                  AlertDialog alert = AlertDialog(
+                    title: const Text("Login Success"),
+                    content: const Text("Success login to apps"),
+                    actions: [
+                      TextButton(
+                        child: const Text('Ok'),
+                        onPressed: () =>
+                            Navigation.intentNoData(HomePage.routeName),
+                      ),
+                    ],
+                  );
+                  showDialog(context: context, builder: (context) => alert);
+                  return;
                 } catch (e) {
                   final snackbar = SnackBar(content: Text(e.toString()));
                   ScaffoldMessenger.of(context).showSnackBar(snackbar);

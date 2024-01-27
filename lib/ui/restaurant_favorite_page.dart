@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/utils/result_state.dart';
 import 'package:restaurant_app/widgets/card_restaurant.dart';
@@ -19,7 +20,7 @@ class FavoritePage extends StatelessWidget {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 const SliverAppBar(
-                  backgroundColor: Colors.green,
+                  backgroundColor: secondaryColor,
                   floating: true,
                   pinned: true,
                   automaticallyImplyLeading: false,
@@ -47,7 +48,7 @@ class FavoritePage extends StatelessWidget {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 const SliverAppBar(
-                  backgroundColor: Colors.green,
+                  backgroundColor: secondaryColor,
                   floating: true,
                   pinned: true,
                   automaticallyImplyLeading: false,
@@ -56,9 +57,11 @@ class FavoritePage extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20))),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
                 ),
               ];
             },

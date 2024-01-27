@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
+import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/login_page.dart';
@@ -41,6 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (context, provider, child) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: secondaryColor,
             title: const Text(
               'Your profile',
               style:
@@ -97,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
               borderRadius: BorderRadius.circular(100.0),
               gradient: const LinearGradient(
-                colors: [Colors.green, Colors.green],
+                colors: [secondaryColor, secondaryColor],
               ),
             ),
             child: CircleAvatar(

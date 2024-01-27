@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/utils/result_state.dart';
@@ -37,7 +38,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 const SliverAppBar(
-                  backgroundColor: Colors.green,
+                  backgroundColor: secondaryColor,
                   floating: true,
                   pinned: true,
                   automaticallyImplyLeading: false,

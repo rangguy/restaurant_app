@@ -20,6 +20,7 @@ import 'package:restaurant_app/ui/register_page.dart';
 import 'package:restaurant_app/ui/restaurant_detail_page.dart';
 import 'package:restaurant_app/ui/restaurant_search_page.dart';
 import 'package:restaurant_app/ui/settings_page.dart';
+import 'package:restaurant_app/ui/splash_screen.dart';
 import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,8 +76,9 @@ class MyApp extends StatelessWidget {
             title: 'Restaurant App',
             theme: provider.themeData,
             navigatorKey: navigatorKey,
-            initialRoute: LoginPage.routeName,
+            initialRoute: SplashScreen.routeName,
             routes: {
+              SplashScreen.routeName:(context) => const SplashScreen(),
               LoginPage.routeName: (context) => const LoginPage(),
               RegisterPage.routeName: (context) => const RegisterPage(),
               HomePage.routeName: (context) => const HomePage(),

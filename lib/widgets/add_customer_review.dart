@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/provider/restaurant_review_provider.dart';
-import 'package:restaurant_app/widgets/success_dialog.dart';
-import 'package:restaurant_app/widgets/warning_dialog.dart';
 
 class AddReview extends StatefulWidget {
   final String idRestaurant;
@@ -72,24 +71,32 @@ class _AddReviewState extends State<AddReview> {
                   // Beri keterlambatan sebelum menampilkan dialog sukses
                   await Future.delayed(const Duration(milliseconds: 300));
 
-                  // Tampilkan dialog sukses jika berhasil
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const SuccessDialog(
-                        description: "Success to add your review",
-                      );
-                    },
+                  AlertDialog alert = AlertDialog(
+                    title: const Text("Success"),
+                    content: const Text("Success to add your review!"),
+                    actions: [
+                      TextButton(
+                        child: const Text('Ok'),
+                        onPressed: () => Navigation.back(),
+                      ),
+                    ],
                   );
+
+                  showDialog(context: context, builder: (context) => alert);
+                  return;
                 } catch (e) {
                   // Tampilkan dialog error jika gagal
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return WarningDialog(
-                          description: 'Failed to add review: $e');
-                    },
+                  AlertDialog alert = AlertDialog(
+                    title: const Text("Failed"),
+                    content: const Text("Failed to add review"),
+                    actions: [
+                      TextButton(
+                        child: const Text('Ok'),
+                        onPressed: () => Navigation.back(),
+                      ),
+                    ],
                   );
+                  showDialog(context: context, builder: (context) => alert);
                 }
                 setState(() {
                   _isLoading = false;
