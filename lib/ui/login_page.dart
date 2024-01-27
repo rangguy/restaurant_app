@@ -3,6 +3,7 @@ import 'package:restaurant_app/ui/register_page.dart';
 import 'package:restaurant_app/ui/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -86,26 +87,40 @@ class _LoginPageState extends State<LoginPage> {
                       final email = _emailController.text;
                       final password = _passwordController.text;
 
-                      await _auth.signInWithEmailAndPassword(
+                      // Melakukan otentikasi pengguna
+                      UserCredential userCredential =
+                          await _auth.signInWithEmailAndPassword(
                         email: email,
                         password: password,
                       );
 
-                      // Tampilkan dialog sukses jika berhasil
-                      AlertDialog alert = AlertDialog(
-                        title: const Text("Login Success"),
-                        content: const Text("Success login to apps"),
-                        actions: [
-                          TextButton(
-                            child: const Text('Ok'),
-                            onPressed: () => Navigation.intentNoData(
-                              HomePage.routeName,
+                      // Mendapatkan objek User dari UserCredential
+                      User? user = userCredential.user;
+
+                      // Memastikan user tidak null sebelum menyimpan uid ke SharedPreferences
+                      if (user != null) {
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('user-uid', user.uid);
+                        // Tampilkan dialog sukses jika berhasil
+                        AlertDialog alert = AlertDialog(
+                          title: const Text("Login Success"),
+                          content: Text("Welcome to CafRestApp $email!"),
+                          actions: [
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigation.intentNoData(HomePage.routeName);
+                              },
                             ),
-                          ),
-                        ],
-                      );
-                      showDialog(context: context, builder: (context) => alert);
-                      return;
+                          ],
+                        );
+                        showDialog(
+                            context: context, builder: (context) => alert);
+                        return;
+                      } else {
+                        print("Error: User is null");
+                      }
                     } catch (e) {
                       final snackbar = SnackBar(content: Text(e.toString()));
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);

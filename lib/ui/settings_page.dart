@@ -7,6 +7,7 @@ import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
   static const String routeName = '/settings';
@@ -71,8 +72,19 @@ class _SettingsPageState extends State<SettingsPage> {
                       TextButton(
                         child: const Text('Ok'),
                         onPressed: () async {
-                          await _auth.signOut();
-                          Navigation.logout(LoginPage.routeName);
+                          // Hapus uid dari SharedPreferences
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.remove('user-uid');
+
+                          // Lakukan proses logout dengan Firebase
+                          await _auth.signOut().then(
+                                (value) => Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  LoginPage.routeName,
+                                  (route) => false,
+                                ),
+                              );
                         },
                       ),
                     ],

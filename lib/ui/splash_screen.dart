@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/ui/home_page.dart';
 import 'package:restaurant_app/ui/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = '/splash_screen';
@@ -12,18 +15,56 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _auth = FirebaseAuth.instance;
+  late User? _activeUser;
+
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
-        (route) => false, // Remove all routes from the stack
-      );
-    });
+    checkAutoLogin();
+  }
+
+  Future<void> checkAutoLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userUid = prefs.getString('user-uid');
+
+    if (userUid != null) {
+      Future.delayed(const Duration(seconds: 3), () {
+        autoLoginSuccess();
+      });
+    } else {
+      Future.delayed(const Duration(seconds: 3), () {
+        showLoginPage();
+      });
+    }
+  }
+
+  void autoLoginSuccess() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+      (route) => false,
+    );
+  }
+
+  void showLoginPage() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ),
+      (route) => false,
+    );
+  }
+
+  void getCurrentUser() async {
+    try {
+      _activeUser = _auth.currentUser;
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -53,7 +94,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            CircularProgressIndicator(color: Colors.white,),
+            CircularProgressIndicator(
+              color: Colors.white,
+            ),
           ],
         ),
       ),
