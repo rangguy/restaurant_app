@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -77,19 +78,51 @@ class MyApp extends StatelessWidget {
             theme: provider.themeData,
             navigatorKey: navigatorKey,
             initialRoute: SplashScreen.routeName,
-            routes: {
-              SplashScreen.routeName:(context) => const SplashScreen(),
-              LoginPage.routeName: (context) => const LoginPage(),
-              RegisterPage.routeName: (context) => const RegisterPage(),
-              HomePage.routeName: (context) => const HomePage(),
-              RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
-                    id: ModalRoute.of(context)?.settings.arguments as String,
-                  ),
-              SearchRestaurant.routeName: (context) => SearchRestaurant(
-                    search:
-                        ModalRoute.of(context)?.settings.arguments as String,
-                  ),
-              SettingsPage.routeName: (context) => const SettingsPage(),
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                case SplashScreen.routeName:
+                  return MaterialPageRoute(
+                      builder: (_) => const SplashScreen());
+                case LoginPage.routeName:
+                  return MaterialPageRoute(builder: (_) => const LoginPage());
+                case RegisterPage.routeName:
+                  return MaterialPageRoute(
+                      builder: (_) => const RegisterPage());
+                case HomePage.routeName:
+                  if (FirebaseAuth.instance.currentUser != null) {
+                    return MaterialPageRoute(builder: (_) => const HomePage());
+                  } else {
+                    return MaterialPageRoute(builder: (_) => const LoginPage());
+                  }
+                case RestaurantDetailPage.routeName:
+                  if (FirebaseAuth.instance.currentUser != null) {
+                    return MaterialPageRoute(
+                        builder: (_) => RestaurantDetailPage(
+                              id: settings.arguments as String,
+                            ));
+                  } else {
+                    return MaterialPageRoute(builder: (_) => const LoginPage());
+                  }
+                case SearchRestaurant.routeName:
+                  if (FirebaseAuth.instance.currentUser != null) {
+                    return MaterialPageRoute(
+                        builder: (_) => SearchRestaurant(
+                              search: settings.arguments as String,
+                            ));
+                  } else {
+                    return MaterialPageRoute(builder: (_) => const LoginPage());
+                  }
+                case SettingsPage.routeName:
+                  if (FirebaseAuth.instance.currentUser != null) {
+                    return MaterialPageRoute(
+                        builder: (_) => const SettingsPage());
+                  } else {
+                    return MaterialPageRoute(builder: (_) => const LoginPage());
+                  }
+                default:
+                  return MaterialPageRoute(
+                      builder: (_) => const SplashScreen());
+              }
             },
           );
         },
