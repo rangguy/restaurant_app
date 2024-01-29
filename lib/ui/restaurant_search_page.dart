@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
@@ -24,7 +25,7 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
   void initState() {
     super.initState();
     search = widget.search;
-    ApiService().searchRestaurant(search);
+    ApiService(Client()).searchRestaurant(search);
   }
 
   @override
@@ -50,7 +51,7 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
       ),
       body: ListenableProvider<RestaurantSearchProvider>(
         create: (_) =>
-            RestaurantSearchProvider(apiService: ApiService(), query: search),
+            RestaurantSearchProvider(apiService: ApiService(Client()), query: search),
         builder: (context, child) {
           return Consumer<RestaurantSearchProvider>(
             builder: (context, state, _) {

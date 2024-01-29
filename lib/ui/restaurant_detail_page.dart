@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -24,7 +25,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   void initState() {
     super.initState();
     id = widget.id;
-    ApiService().detailRestaurant(id);
+    ApiService(Client()).detailRestaurant(id);
   }
 
   @override
@@ -44,7 +45,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
       body: SingleChildScrollView(
         child: ListenableProvider<RestaurantDetailProvider>(
           create: (_) =>
-              RestaurantDetailProvider(apiService: ApiService(), id: widget.id),
+              RestaurantDetailProvider(apiService: ApiService(Client()), id: widget.id),
           builder: (context, child) {
             return Consumer<RestaurantDetailProvider>(
               builder: (context, state, _) {

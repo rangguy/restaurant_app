@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -57,7 +58,7 @@ class _AddReviewState extends State<AddReview> {
                 try {
                   // Panggil fungsi addReview dari provider
                   RestaurantReviewProvider(
-                      apiService: ApiService(),
+                      apiService: ApiService(Client()),
                       id: widget.idRestaurant,
                       name: _nameController.text,
                       review: _reviewController.text);

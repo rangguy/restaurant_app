@@ -10,8 +10,11 @@ class ApiService {
   static const String _detail = 'detail';
   static const String _review = 'review';
 
+  final http.Client client;
+  ApiService(this.client);
+
   Future<RestaurantResult> listRestaurant() async {
-    final response = await http.get(Uri.parse("$_baseUrl/$_list"));
+    final response = await client.get(Uri.parse("$_baseUrl/$_list"));
     if (response.statusCode == 200) {
       return RestaurantResult.fromJson(json.decode(response.body));
     } else {

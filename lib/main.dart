@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => RestaurantProvider(
-            apiService: ApiService(),
+            apiService: ApiService(Client()),
           ),
         ),
         ChangeNotifierProvider(create: (_) => SchedulingProvider()),
@@ -89,29 +90,17 @@ class MyApp extends StatelessWidget {
                   return MaterialPageRoute(
                       builder: (_) => const RegisterPage());
                 case HomePage.routeName:
-                  if (FirebaseAuth.instance.currentUser != null) {
-                    return MaterialPageRoute(builder: (_) => const HomePage());
-                  } else {
-                    return MaterialPageRoute(builder: (_) => const LoginPage());
-                  }
+                  return MaterialPageRoute(builder: (_) => const HomePage());
                 case RestaurantDetailPage.routeName:
-                  if (FirebaseAuth.instance.currentUser != null) {
-                    return MaterialPageRoute(
-                        builder: (_) => RestaurantDetailPage(
-                              id: settings.arguments as String,
-                            ));
-                  } else {
-                    return MaterialPageRoute(builder: (_) => const LoginPage());
-                  }
+                  return MaterialPageRoute(
+                      builder: (_) => RestaurantDetailPage(
+                            id: settings.arguments as String,
+                          ));
                 case SearchRestaurant.routeName:
-                  if (FirebaseAuth.instance.currentUser != null) {
-                    return MaterialPageRoute(
-                        builder: (_) => SearchRestaurant(
-                              search: settings.arguments as String,
-                            ));
-                  } else {
-                    return MaterialPageRoute(builder: (_) => const LoginPage());
-                  }
+                  return MaterialPageRoute(
+                      builder: (_) => SearchRestaurant(
+                            search: settings.arguments as String,
+                          ));
                 case SettingsPage.routeName:
                   if (FirebaseAuth.instance.currentUser != null) {
                     return MaterialPageRoute(

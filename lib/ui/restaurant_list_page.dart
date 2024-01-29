@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -18,7 +19,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
   @override
   void initState() {
     super.initState();
-    ApiService().listRestaurant();
+    ApiService(Client()).listRestaurant();
   }
 
   @override
